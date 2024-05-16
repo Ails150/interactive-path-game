@@ -14,6 +14,7 @@
             height: 100vh;
             margin: 0;
         }
+
         .path-container {
             position: relative;
             width: 800px;
@@ -23,6 +24,7 @@
             border: 2px solid #ccc;
             border-radius: 15px;
         }
+
         .path-section {
             position: absolute;
             display: flex;
@@ -37,6 +39,7 @@
             cursor: pointer;
             z-index: 3;
         }
+
         .checkbox {
             position: absolute;
             z-index: 4;
@@ -47,14 +50,22 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .character {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-image: url('https://therealmeacademy.com/wp-content/uploads/2024/05/I-AM-HERE-1.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
+
+        #section1 { top: 60px; left: 60px; }
+        #checkbox1 { top: 110px; left: 85px; }
+        #section2 { top: 140px; left: 160px; }
+        #checkbox2 { top: 190px; left: 185px; }
+        #section3 { top: 220px; left: 260px; }
+        #checkbox3 { top: 270px; left: 285px; }
+        #section4 { top: 300px; left: 360px; }
+        #checkbox4 { top: 350px; left: 385px; }
+        #section5 { top: 380px; left: 460px; }
+        #checkbox5 { top: 430px; left: 485px; }
+        #section6 { top: 300px; left: 560px; }
+        #checkbox6 { top: 350px; left: 585px; }
+        #section7 { top: 220px; left: 660px; }
+        #checkbox7 { top: 270px; left: 685px; }
+
         .popup {
             display: none;
             position: fixed;
@@ -70,6 +81,7 @@
             text-align: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
+
         .popup span {
             cursor: pointer;
             color: purple;
@@ -78,9 +90,11 @@
             top: 5px;
             right: 5px;
         }
+
         .popup-content {
             color: black;
         }
+
         .congrats {
             display: none;
             position: fixed;
@@ -97,6 +111,7 @@
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
+
         .congrats button {
             margin-top: 10px;
             background-color: #4CAF50;
@@ -109,82 +124,133 @@
     </style>
 </head>
 <body>
-    <div id="root"></div>
-    <script src="https://unpkg.com/react/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone"></script>
-    <script type="text/babel">
-        const PathGame = () => {
-            const [popups, setPopups] = React.useState({});
-            const [completedSections, setCompletedSections] = React.useState({});
-            const [showCongrats, setShowCongrats] = React.useState(false);
-
-            const showPopup = (popupId) => {
-                setPopups({ ...popups, [popupId]: true });
-            };
-
-            const closePopup = (popupId) => {
-                setPopups({ ...popups, [popupId]: false });
-            };
-
-            const completeSection = (checkboxId, nextSectionId, characterId) => {
-                setCompletedSections({ ...completedSections, [checkboxId]: true });
-                if (characterId) {
-                    document.getElementById(characterId).style.display = 'block';
-                }
-                if (!nextSectionId) {
-                    setShowCongrats(true);
-                }
-            };
-
-            const closeCongrats = () => {
-                setShowCongrats(false);
-            };
-
-            return (
-                <div className="path-container">
-                    {[
-                        { id: 1, top: 60, left: 60, popup: "Welcome to The Real Me Academy, Buzz and friends are excited to go on this exciting personal development journey with you and your friends." },
-                        { id: 2, top: 140, left: 160, popup: "Your children should be talking explicitly about what they are grateful for, both as a morning routine and throughout the day." },
-                        { id: 3, top: 220, left: 260, popup: "Your children should be talking about how their actions are related to how they think and feel using their affirmations daily to improve how they think and feel about themselves catch and challenge negative self talk (self and others)." },
-                        { id: 4, top: 300, left: 360, popup: "Your children should be able to explain that they control their thoughts, good or bad. The thoughts they give attention to will grow. Their thoughts are connected to how they feel and act. Thinking is a habit. Children are more aware that the way they act is linked to how they think. Your children should be able to tell you about how they change situations and results by changing the way they think about it." },
-                        { id: 5, top: 380, left: 460, popup: "Your children should be able to explain: Thinking is a habit so it can be good or bad. That they can use their imagination for good or bad. When they use their imagination for good they can be more creative. Using their imagination helps them set goals." },
-                        { id: 6, top: 300, left: 560, popup: "Your children should have developed good thinking habits. Set and achieve their goal. Understand that setbacks are part of learning. Be aware of how to think differently about a situation so they get the outcome they want. They are confident and have improved self-esteem and self-belief." },
-                        { id: 7, top: 220, left: 660, popup: "Your children should be able to put all of their learning into practice to believe in who they are. Set goals for themselves. Develop confidence and a positive attitude. Challenge negative thinking. Present and share their learning to an audience." }
-                    ].map((section) => (
-                        <div key={section.id}>
-                            <div className="path-section" style={{ top: section.top, left: section.left }}>
-                                <button onClick={() => showPopup(`popup${section.id}`)}>Section {section.id}</button>
-                                {popups[`popup${section.id}`] && (
-                                    <div className="popup show">
-                                        <span onClick={() => closePopup(`popup${section.id}`)}>X</span>
-                                        <div className="popup-content">
-                                            <p>{section.popup}</p>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                            <input
-                                className="checkbox"
-                                type="checkbox"
-                                id={`checkbox${section.id}`}
-                                style={{ top: section.top + 50, left: section.left + 25 }}
-                                onChange={() => completeSection(`checkbox${section.id}`, `section${section.id + 1}`, `character${section.id}`)}
-                            />
-                            <div className="character" id={`character${section.id}`} style={{ top: section.top, left: section.left + 60, display: 'none' }}></div>
-                        </div>
-                    ))}
-                    {showCongrats && (
-                        <div className="congrats show">
-                            <p>Congratulations! You completed the BeeMe Journey. Remember, the key is repetition. Read your final story <a href="#">here</a>.</p>
-                            <button onClick={closeCongrats}>Exit</button>
-                        </div>
-                    )}
+    <div class="path-container">
+        <div class="path-section" id="section1">
+            <button onclick="showPopup('popup1')">Getting Started</button>
+            <div class="popup" id="popup1">
+                <span onclick="closePopup('popup1')">X</span>
+                <div class="popup-content">
+                    <p>Welcome to The Real Me Academy, Buzz and friends are excited to go on this exciting personal development journey with you and your friends.</p>
                 </div>
-            );
-        };
+            </div>
+        </div>
+        <input class="checkbox" type="checkbox" id="checkbox1" onchange="completeSection('checkbox1', 'section2')">
 
-        ReactDOM.render(<PathGame />, document.getElementById('root'));
+        <div class="path-section" id="section2">
+            <button onclick="showPopup('popup2')">Week 2</button>
+            <div class="popup" id="popup2">
+                <span onclick="closePopup('popup2')">X</span>
+                <div class="popup-content">
+                    <p>Your children should be talking explicitly about what they are grateful for, both as a morning routine and throughout the day.</p>
+                </div>
+            </div>
+        </div>
+        <input class="checkbox" type="checkbox" id="checkbox2" onchange="completeSection('checkbox2', 'section3')">
+
+        <div class="path-section" id="section3">
+            <button onclick="showPopup('popup3')">Week 5</button>
+            <div class="popup" id="popup3">
+                <span onclick="closePopup('popup3')">X</span>
+                <div class="popup-content">
+                    <p>Your children should be talking about how their actions are related to how they think and feel using their affirmations daily to improve how they think and feel about themselves catch and challenge negative self talk (self and others).</p>
+                </div>
+            </div>
+        </div>
+        <input class="checkbox" type="checkbox" id="checkbox3" onchange="completeSection('checkbox3', 'section4')">
+
+        <div class="path-section" id="section4">
+            <button onclick="showPopup('popup4')"> Week 7</button>
+            <div class="popup" id="popup4">
+                <span onclick="closePopup('popup4')">X</span>
+                <div class="popup-content">
+                    <p>Your children should be able to explain that they control their thoughts, good or bad. The thoughts they give attention to will grow. Their thoughts are connected to how they feel and act. Thinking is a habit. Children are more aware that the way they act is linked to how they think. Your children should be able to tell you about how they change situations and results by changing the way they think about it.</p>
+                </div>
+            </div>
+        </div>
+        <input class="checkbox" type="checkbox" id="checkbox4" onchange="completeSection('checkbox4', 'section5')">
+
+        <div class="path-section" id="section5">
+            <button onclick="showPopup('popup5')">Week 9</button>
+            <div class="popup" id="popup5">
+                <span onclick="closePopup('popup5')">X</span>
+                <div class="popup-content">
+                    <p>Your children should be able to explain: Thinking is a habit so it can be good or bad. That they can use their imagination for good or bad. When they use their imagination for good they can be more creative. Using their imagination helps them set goals.</p>
+                </div>
+            </div>
+        </div>
+        <input class="checkbox" type="checkbox" id="checkbox5" onchange="completeSection('checkbox5', 'section6')">
+
+        <div class="path-section" id="section6">
+            <button onclick="showPopup('popup6')">Week 12 - 14</button>
+            <div class="popup" id="popup6">
+                <span onclick="closePopup('popup6')">X</span>
+                <div class="popup-content">
+                    <p>Your children should have developed good thinking habits. Set and achieve their goal. Understand that setbacks are part of learning. Be aware of how to think differently about a situation so they get the outcome they want. They are confident and have improved self-esteem and self-belief.</p>
+                </div>
+            </div>
+        </div>
+        <input class="checkbox" type="checkbox" id="checkbox6" onchange="completeSection('checkbox6', 'section7')">
+
+        <div class="path-section" id="section7">
+            <button onclick="showPopup('popup7')">Finale</button>
+            <div class="popup" id="popup7">
+                <span onclick="closePopup('popup7')">X</span>
+                <div class="popup-content">
+                    <p>Your children should be able to put all of their learning into practice to believe in who they are. Set goals for themselves. Develop confidence and a positive attitude. Challenge negative thinking. Present and share their learning to an audience.</p>
+                </div>
+            </div>
+        </div>
+        <input class="checkbox" type="checkbox" id="checkbox7" onchange="completeSection('checkbox7', null)">
+
+        <div class="congrats" id="congrats">
+            <p>Congratulations! You completed the BeeMe Journey. Remember, the key is repetition. Read your final story <a href="#">here</a>.</p>
+            <button onclick="closeCongrats()">Exit</button>
+        </div>
+    </div>
+
+    <script>
+        function showPopup(popupId) {
+            const popups = document.querySelectorAll('.popup');
+            popups.forEach(popup => popup.style.zIndex = 5); // Reset zIndex for all popups
+            document.getElementById(popupId).style.zIndex = 10; // Set zIndex higher for the current popup
+            document.getElementById(popupId).style.display = 'block';
+
+            const popup = document.getElementById(popupId);
+            popup.style.top = '10%'; // Set top position for the popup
+            popup.style.left = '50%'; // Set left position for the popup
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        function completeSection(checkboxId, nextSectionId) {
+            if (nextSectionId) {
+                moveCharacter(nextSectionId);
+            } else {
+                showCongrats();
+            }
+        }
+
+        function moveCharacter(nextSectionId) {
+            const character = document.getElementById('character');
+            const nextSection = document.getElementById(nextSectionId);
+            if (nextSection) {
+                const rect = nextSection.getBoundingClientRect();
+                character.style.top = rect.top + window.scrollY + 'px';
+                character.style.left = rect.left + window.scrollX + 'px';
+            }
+        }
+
+        function showCongrats() {
+            const congrats = document.getElementById('congrats');
+            congrats.style.display = 'block';
+        }
+
+        function closeCongrats() {
+            const congrats = document.getElementById('congrats');
+            congrats.style.display = 'none';
+        }
     </script>
 </body>
 </html>
